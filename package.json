@@ -1,0 +1,11 @@
+{
+  "name": "bl-fragancias-backend",
+  "version": "1.0.0",
+  "description": "Backend API para BL FRAGANCIAS - Perfumería fina",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Alan Peña",
+  "license": "ISC"
+}
