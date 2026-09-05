@@ -1,22 +1,22 @@
 const http = require('node:http');
-const fs = require('node:fs');
+const Router = require('./src/router');
 const PORT = process.env.PORT || 3000;
-const server = http.createServer((req, res) => {
-  const url = req.url || '/';
-  if (url === '/event-loop/async') {
-    fs.readFile(__filename, (err, data) => {
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ status: 'success', type: 'I/O Asincrono No Bloqueante', bytes: data.length }));
-    });
-    return;
-  }
-  if (url === '/event-loop/blocking') {
-    let count = 0;
-    for (let i = 0; i < 30000000; i++) count += i;
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    return res.end(JSON.stringify({ status: 'success', type: 'Calculo Bloqueante', count }));
-  }
+const router = new Router();
+const catalog = [{ id: '1', name: 'Bleu de Chanel', price: 3650 }];
+
+router.get('/api/perfumes', (req, res) => {
   res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.end(JSON.stringify({ status: 'success', system: 'BL FRAGANCIAS API', version: 'v1.0.0-http-core' }));
+  res.end(JSON.stringify({ status: 'success', data: catalog }));
 });
-server.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
+const server = http.createServer(async (req, res) => {
+  try {
+    const handler = router.routes[req.method]?.get(req.url);
+    if (handler) return await handler(req, res);
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ status: 'error', message: 'No encontrado' }));
+  } catch (err) {
+    res.writeHead(500, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ status: 'error', message: 'Error interno' }));
+  }
+});
+server.listen(PORT, () => console.log(`Servidor en ${PORT}`));
