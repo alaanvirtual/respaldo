@@ -1,0 +1,14 @@
+{
+  "name": "bl-fragancias-backend",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx watch src/index.ts"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "tsx": "^4.19.3",
+    "@types/node": "^22.13.4"
+  }
+}
