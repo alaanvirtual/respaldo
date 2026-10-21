@@ -1,0 +1,40 @@
+# docker-compose.yml - Orquestación de contenedores para desarrollo y producción
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: pms_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secretpassword
+      POSTGRES_DB: pms_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: pms_redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  pms-backend:
+    build: .
+    container_name: pms_backend_app
+    restart: always
+    depends_on:
+      - postgres
+      - redis
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      REDIS_URL: redis://redis:6379
+
+volumes:
+  pgdata:
