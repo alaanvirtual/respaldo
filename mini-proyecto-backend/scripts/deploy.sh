@@ -1,33 +1,55 @@
-#!/bin/bash
-set -e
 
-SERVER_USER="ubuntu"
-SERVER_IP="203.0.113.10"
-KEY_PATH="./mi_clave_ec2.pem"
-REMOTE_DIR="/home/ubuntu/pms-backend"
-ARCHIVE_NAME="pms_be_1.0.0.tgz"
+set -euo pipefail
+
+SERVER_USER="${SERVER_USER:-ubuntu}"
+SERVER_IP="${SERVER_IP:-CAMBIAR_POR_IP_PUBLICA_EC2}"
+KEY_PATH="${KEY_PATH:-./mi_clave_ec2.pem}"
+REMOTE_DIR="${REMOTE_DIR:-/home/ubuntu/pms-backend}"
+
+SSH_OPTS="-i $KEY_PATH -o StrictHostKeyChecking=accept-new"
+
+if [[ "$SERVER_IP" == "CAMBIAR_POR_IP_PUBLICA_EC2" ]]; then
+  echo "ERROR: define SERVER_IP con la IP pública de tu EC2." >&2
+  exit 1
+fi
+if [[ ! -f "$KEY_PATH" ]]; then
+  echo "ERROR: no se encuentra la clave $KEY_PATH" >&2
+  exit 1
+fi
 
 echo "=========================================="
-echo "Iniciando despliegue hacia $SERVER_IP"
+echo "1/4 Generando paquete (compila + ofusca)"
 echo "=========================================="
+npm run package
 
-# Creación de directorio remoto y transferencia de archivos
-echo "Transfiriendo paquete de aplicación..."
-ssh -i $KEY_PATH $SERVER_USER@$SERVER_IP "mkdir -p $REMOTE_DIR"
-scp -i $KEY_PATH binaries/$ARCHIVE_NAME $SERVER_USER@$SERVER_IP:$REMOTE_DIR/
+ARCHIVE_NAME="$(basename "$(ls binaries/*.tgz | head -n 1)")"
+echo "Paquete: $ARCHIVE_NAME"
 
-# Instalación y reinicio del servicio PM2 en la máquina remota
-echo "Ejecutando actualización de servicio en servidor..."
-ssh -i $KEY_PATH $SERVER_USER@$SERVER_IP << 'EOF'
-  cd /home/ubuntu/pms-backend
-  tar -xzf pms_be_1.0.0.tgz
-  npm install --only=production
-  
-  # Inicio o reinicio del servicio backend en PM2
-  pm2 startOrRestart ecosystem.config.js --env production
-  pm2 save
+echo "=========================================="
+echo "2/4 Transfiriendo a $SERVER_IP"
+echo "=========================================="
+ssh $SSH_OPTS "$SERVER_USER@$SERVER_IP" "mkdir -p $REMOTE_DIR"
+scp $SSH_OPTS "binaries/$ARCHIVE_NAME" "$SERVER_USER@$SERVER_IP:$REMOTE_DIR/"
+
+echo "=========================================="
+echo "3/4 Instalando y reiniciando en el servidor"
+echo "=========================================="
+ssh $SSH_OPTS "$SERVER_USER@$SERVER_IP" bash -s <<EOF
+set -euo pipefail
+cd "$REMOTE_DIR"
+rm -rf dist
+tar -xzf "$ARCHIVE_NAME"
+rm -f "$ARCHIVE_NAME"
+npm ci --omit=dev
+[ -f .env ] || echo "AVISO: falta $REMOTE_DIR/.env (la app no tendrá configuración)"
+pm2 startOrReload ecosystem.config.js --env production
+pm2 save
 EOF
 
 echo "=========================================="
-echo "Despliegue finalizado exitosamente."
+echo "4/4 Estado del servicio"
 echo "=========================================="
+sleep 3
+ssh $SSH_OPTS "$SERVER_USER@$SERVER_IP" "pm2 status"
+
+echo "Despliegue finalizado."

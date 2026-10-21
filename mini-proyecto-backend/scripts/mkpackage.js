@@ -14,6 +14,7 @@ console.log(`Iniciando empaquetado de producción v${VER}`);
 console.log('==========================================');
 
 // 1. Limpieza de directorios
+if (fs.existsSync(distDir)) fs.rmSync(distDir, { recursive: true, force: true });
 if (fs.existsSync(buildDir)) fs.rmSync(buildDir, { recursive: true, force: true });
 if (fs.existsSync(binariesDir)) fs.rmSync(binariesDir, { recursive: true, force: true });
 fs.mkdirSync(buildDir, { recursive: true });

@@ -34,6 +34,11 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: secretpassword
+      DB_NAME: pms_db
       REDIS_URL: redis://redis:6379
 
 volumes:
