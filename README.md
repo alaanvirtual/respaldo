@@ -268,16 +268,3 @@ Content-Type: application/json
 ```http
 DELETE /api/users/:id
 ```
-
----
-
-## Notificaciones en Tiempo Real (WebSockets)
-
-Conexión al endpoint WebSocket en:
-`ws://localhost:3000/ws`
-
-**Eventos emitidos:**
-- `SYSTEM_CONNECTED`: Mensaje de confirmación al establecer la conexión.
-- `PERFUME_CREATED`: Emitido a los clientes conectados al registrar una nueva fragancia.
-- `PERFUME_STOCK_DEDUCTED`: Emitido al deducir existencias en tiempo real para sincronizar clientes e inventario.
-
