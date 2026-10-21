@@ -264,6 +264,7 @@ Content-Type: application/json
 }
 ```
 
+
 #### 5. Eliminar Usuario
 ```http
 DELETE /api/users/:id
