@@ -20,7 +20,6 @@ COPY package*.json ./
 RUN npm ci --only=production
 
 COPY --from=builder /usr/src/app/dist ./dist
-COPY server_config.json ./
 
 EXPOSE 3000
 
