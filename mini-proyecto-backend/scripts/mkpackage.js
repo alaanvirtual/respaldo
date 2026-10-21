@@ -31,7 +31,6 @@ execSync('node obfuscate.js', { cwd: rootDir, stdio: 'inherit' });
 console.log('Copiando archivos de configuración...');
 fs.copyFileSync(path.join(rootDir, 'package.json'), path.join(buildDir, 'package.json'));
 fs.copyFileSync(path.join(rootDir, 'package-lock.json'), path.join(buildDir, 'package-lock.json'));
-fs.copyFileSync(path.join(rootDir, 'server_config.json'), path.join(buildDir, 'server_config.json'));
 if (fs.existsSync(path.join(rootDir, 'ecosystem.config.js'))) {
   fs.copyFileSync(path.join(rootDir, 'ecosystem.config.js'), path.join(buildDir, 'ecosystem.config.js'));
 }
@@ -41,7 +40,7 @@ fs.cpSync(distDir, path.join(buildDir, 'dist'), { recursive: true });
 const archiveName = `pms_be_${VER}.tgz`;
 const targetArchive = path.join(binariesDir, archiveName);
 console.log(`Comprimiendo archivo ${archiveName}...`);
-execSync(`tar -czf "${targetArchive}" -C "${buildDir}" .`, { stdio: 'inherit' });
+execSync(`tar -czf "${targetArchive}" -C "${buildDir}" .`, { stdio: 'ignore' });
 
 console.log('==========================================');
 console.log(`Paquete generado exitosamente en binaries/${archiveName}`);

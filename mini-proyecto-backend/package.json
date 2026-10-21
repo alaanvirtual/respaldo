@@ -6,14 +6,9 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/src/main.js",
-    "start:single": "node dist/src/express_server_standalone.js",
     "dev": "nodemon --watch src -e ts --exec ts-node src/main.ts",
-    "dev:single": "nodemon --watch src -e ts --exec tsx src/express_server_standalone.ts",
-    "test": "node test/test-pms.js",
-    "test:pms": "node test/test-pms.js",
-    "test:cap5-6": "node test/test-capitulo5-6.js",
-    "test:cap7-8": "node test/test-capitulo7-8.js",
-    "test:mocha": "mocha --require ts-node/register \"tests/**/*.test.ts\" --timeout 15000 --exit",
+    "test": "mocha --require ts-node/register \"tests/**/*.test.ts\" --timeout 15000 --exit",
+    "test:coverage": "nyc npm test",
     "obfuscate": "node obfuscate.js",
     "package": "node scripts/mkpackage.js"
   },

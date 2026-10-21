@@ -23,7 +23,7 @@ echo "Ofuscando código compilado..."
 node obfuscate.js
 
 # Copia de archivos de configuración requeridos
-cp package.json package-lock.json server_config.json $BUILD_DIR/
+cp package.json package-lock.json $BUILD_DIR/
 cp -r $DIST_DIR $BUILD_DIR/dist
 
 # Creación del paquete tarball comprimido
