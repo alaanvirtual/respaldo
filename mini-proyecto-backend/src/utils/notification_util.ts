@@ -27,17 +27,17 @@ export class NotificationUtil {
       const redisUrl = process.env.REDIS_URL || 'redis://127.0.0.1:6379';
       NotificationUtil.emailQueue = new Queue('emailQueue', redisUrl, {
         redis: {
-          maxRetriesPerRequest: 1,
-          connectTimeout: 800,
-          enableOfflineQueue: false
+          enableOfflineQueue: true,
+          maxRetriesPerRequest: null
         },
         settings: {
           maxStalledCount: 2
         }
       });
 
-      NotificationUtil.emailQueue.on('error', () => {
+      NotificationUtil.emailQueue.on('error', (err: any) => {
         NotificationUtil.isQueueAvailable = false;
+        console.warn('[WARN Bull] Error en la conexión de cola:', err?.message || err);
       });
 
       NotificationUtil.emailQueue.on('ready', () => {

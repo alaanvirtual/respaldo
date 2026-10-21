@@ -1,6 +1,4 @@
 # docker-compose.yml - Orquestación de contenedores para desarrollo y producción
-version: '3.8'
-
 services:
   postgres:
     image: postgres:15-alpine
