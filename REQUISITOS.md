@@ -113,7 +113,7 @@ Los requisitos funcionales detallan el comportamiento, las reglas de negocio y l
   * **Capa:** Presentación (`health.routes.ts`, `GET /api/health`).
 
 
-## 3. Requisitos No Funcionales (RNF)
+3. Requisitos No Funcionales (RNF)
 
 Los requisitos no funcionales definen los atributos de calidad, restricciones arquitectónicas, desempeño, seguridad y estándares de ingeniería aplicados.
 
