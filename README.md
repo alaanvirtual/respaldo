@@ -14,6 +14,29 @@ El diseño sigue los principios de **Arquitectura Limpia (Clean Architecture)**,
 
 ---
 
+## Especificación de Requisitos del Sistema (SRS)
+
+Para consultar la especificación exhaustiva y formal de los requisitos de ingeniería de software con sus criterios de aceptación y matriz de trazabilidad, diríjase al documento dedicado:
+* [**Especificación Completa de Requisitos (REQUISITOS.md)**](./REQUISITOS.md)
+
+### Resumen de Requisitos Funcionales (RF)
+- **RF-01 a RF-07 (Catálogo e Inventario):** Registro de fragancias, consulta con filtros concurrentes, detalle por ID, deducción atómica de existencias con bloqueo de invariante de dominio (`InsufficientStockError` -> 409 Conflict), reabastecimiento, actualización de precios y depuración.
+- **RF-08 a RF-12 (Gestión de Usuarios y Accesos):** Alta de usuarios con validación de unicidad de correo y username, consulta por ID o listado, actualización de perfil, control estricto de roles (`Admin` y `Customer`) y baja de cuentas.
+- **RF-13 y RF-14 (Órdenes y Ventas):** Creación de pedidos con cálculo automático de importes y control de ciclo de vida mediante máquina de estados finitos (`PENDING` -> `PAID` -> `SHIPPED` -> `DELIVERED`).
+- **RF-15 y RF-16 (Tiempo Real y Monitoreo):** Difusión de eventos de inventario en vivo vía WebSockets (`/ws`) y endpoint de salud operacional `GET /api/health`.
+
+### Resumen de Requisitos No Funcionales (RNF)
+- **RNF-01 (Clean Architecture):** 4 capas concéntricas con regla de dependencia unidireccional hacia adentro y 0 dependencias externas en la capa de Dominio.
+- **RNF-02 (Tipado Estricto):** TypeScript con `strict: true`, `noImplicitAny: true`, `strictNullChecks: true` y compilación limpia con 0 errores.
+- **RNF-03 y RNF-04 (Seguridad Perimetral):** Protección de cabeceras HTTP mediante Helmet (HSTS, nosniff, no-sniffing) y control de orígenes cruzados (CORS).
+- **RNF-05 y RNF-06 (Validación y Errores):** Validación perimetral exhaustiva con Zod y manejo centralizado de excepciones vía `AppError` con códigos semánticos (400, 404, 409, 500).
+- **RNF-07 (Seguridad Criptográfica):** Hashing de contraseñas con Bcrypt (cost factor >= 10) y tokens stateless con JWT.
+- **RNF-08 y RNF-09 (Rendimiento):** Compresión de tráfico HTTP (Gzip/Deflate) y aceleración de consultas mediante caché (patrón Cache-Aside con TTL).
+- **RNF-10 y RNF-11 (Observabilidad y Conectividad):** Logging estructurado con Winston (ISO 8601 y JSON) y canal full-duplex WebSocket (`/ws`).
+- **RNF-12 (Verificabilidad):** Cobertura de pruebas automatizadas unitarias y de integración con Jest (`npm test`).
+
+---
+
 ## Diagrama de Arquitectura de Capas (C4 Nivel 2 - Contenedores y Componentes)
 
 ```mermaid
