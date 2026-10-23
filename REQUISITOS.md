@@ -1,16 +1,4 @@
-# Especificación de Requisitos de Software (SRS)
-
-**Proyecto:** BL FRAGANCIAS — Sistema Backend de Comercio Electrónico y Control de Inventario de Perfumería Fina  
-**Institución:** Universidad Autónoma de Sinaloa — Facultad de Ingeniería Mochis  
-**Programa Educativo:** Licenciatura en Ingeniería de Software (7.º Semestre)  
-**Materia:** Desarrollo Backend de Aplicaciones  
-**Titular de la Asignatura:** Dr. Herman Geovany Ayala Zúñiga  
-**Estudiante:** Alan Abraham Peña Nava  
-**Matrícula:** 23122668  
-**Fecha de Emisión:** Octubre 2026  
-**Versión:** 1.0.0  
-
----
+# Especificación de Requisitos de Software (SRS) -- AVANCES
 
 ## 1. Introducción y Alcance
 
@@ -20,7 +8,7 @@ El presente documento define la especificación formal de los **Requisitos Funci
 ### 1.2. Alcance del Sistema
 El sistema backend provee una interfaz de programación de aplicaciones (API RESTful) y un canal de comunicación bidireccional en tiempo real (WebSockets). Está construido bajo los fundamentos de **Clean Architecture (Arquitectura Limpia)**, **Domain-Driven Design (DDD)** y tipado estricto con TypeScript, garantizando alta cohesión, bajo acoplamiento e independencia tecnológica entre reglas de negocio, casos de uso, persistencia e interfaces de transporte.
 
----
+
 
 ## 2. Requisitos Funcionales (RF)
 
@@ -63,7 +51,7 @@ Los requisitos funcionales detallan el comportamiento, las reglas de negocio y l
   * **Descripción:** El sistema debe permitir la baja física o lógica de una fragancia del inventario mediante su identificador único.
   * **Capa:** Infraestructura (`IPerfumeRepository.delete`).
 
----
+
 
 ### Módulo 2: Gestión de Usuarios y Accesos
 
@@ -90,7 +78,6 @@ Los requisitos funcionales detallan el comportamiento, las reglas de negocio y l
   * **Descripción:** El sistema debe permitir la baja de un registro de usuario a través de su identificador.
   * **Capa:** Aplicación (`DeleteUserUseCase.ts`) / Presentación (`DELETE /api/users/:id`).
 
----
 
 ### Módulo 3: Procesamiento de Pedidos y Ventas (E-Commerce)
 
@@ -109,7 +96,6 @@ Los requisitos funcionales detallan el comportamiento, las reglas de negocio y l
     - Cualquier transición fuera de secuencia debe ser abortada arrojando `InvalidOrderOperationError`.
   * **Capa:** Dominio (`Order.ts`).
 
----
 
 ### Módulo 4: Notificaciones y Monitoreo del Sistema
 
@@ -126,7 +112,6 @@ Los requisitos funcionales detallan el comportamiento, las reglas de negocio y l
   * **Respuesta obligatoria:** Objeto JSON con `{ status: "success", system: "BL FRAGANCIAS API", timestamp, uptimeSeconds, environment }`.
   * **Capa:** Presentación (`health.routes.ts`, `GET /api/health`).
 
----
 
 ## 3. Requisitos No Funcionales (RNF)
 
@@ -193,37 +178,6 @@ Los requisitos no funcionales definen los atributos de calidad, restricciones ar
 * **Categoría:** Confiabilidad y Mantenibilidad.
 * **Especificación:** El sistema debe disponer de una batería de pruebas automatizadas ejecutable mediante **Jest** y `ts-jest`.
 * **Criterio de Aceptación:** Las pruebas unitarias deben validar el 100% de las invariantes de las entidades de dominio y las pruebas de integración deben certificar los endpoints principales de la API, completando la suite con 0 fallas (`PASS`).
-
----
-
-## 4. Matriz de Trazabilidad de Requisitos
-
-| Código | Descripción Sintética | Capa Principal | Componente de Software | Verificación |
-| :--- | :--- | :--- | :--- | :--- |
-| **RF-01** | Alta de fragancias | Aplicación / Dominio | `CreatePerfumeUseCase.ts`, `Perfume.ts` | Test unitario Jest / Zod Body |
-| **RF-02** | Catálogo con filtros | Aplicación | `ListPerfumesUseCase.ts` | Zod Query / Test de integración |
-| **RF-03** | Detalle de fragancia | Aplicación | `GetPerfumeByIdUseCase.ts` | Endpoint `GET /api/perfumes/:id` |
-| **RF-04** | Deducción de stock | Dominio | `Perfume.deductStock`, `DeductStockUseCase.ts` | `Perfume.spec.ts` (Validación de invariante) |
-| **RF-05** | Reabastecimiento de existencias | Dominio | `Perfume.addStock` | `Perfume.spec.ts` |
-| **RF-06** | Actualización de precio | Dominio | `Perfume.updatePrice` | `Perfume.spec.ts` |
-| **RF-07** | Eliminación de fragancia | Infraestructura | `IPerfumeRepository.delete` | Repositorio / Base de datos |
-| **RF-08** | Registro de usuario | Aplicación / Seguridad | `CreateUserUseCase.ts`, `PasswordHasher.ts` | `User.spec.ts` |
-| **RF-09** | Búsqueda de usuarios | Aplicación | `ListUsersUseCase.ts`, `GetUserByIdUseCase.ts` | Endpoint `GET /api/users` |
-| **RF-10** | Actualización de perfil | Dominio | `User.updateProfile` | `User.spec.ts` |
-| **RF-11** | Control de roles de usuario | Dominio | `User.changeRole` | `User.spec.ts` |
-| **RF-12** | Eliminación de usuario | Aplicación | `DeleteUserUseCase.ts` | Endpoint `DELETE /api/users/:id` |
-| **RF-13** | Creación y totalización de órdenes | Dominio | `Order.create` | Entidad de orden |
-| **RF-14** | Máquina de estados de pedido | Dominio | `Order.markAsPaid`, `ship`, `deliver` | Transiciones de estado de orden |
-| **RF-15** | Notificaciones en tiempo real | Presentación | `WebSocketServer.ts`, `PerfumeController.ts` | Broadcast `/ws` |
-| **RF-16** | Verificación de salud (Health Check) | Presentación | `health.routes.ts` | `health.spec.ts` (`GET /api/health`) |
-| **RNF-01** | Clean Architecture (0 deps en dominio) | Dominio / Global | `src/domain/` | Análisis estático de imports |
-| **RNF-02** | Tipado estricto en TypeScript | Global | `tsconfig.json` | `npx tsc --noEmit` (0 errores) |
-| **RNF-03** | Seguridad perimetral HTTP (Helmet) | Presentación | `app.ts` | Cabeceras de respuesta HTTP |
-| **RNF-04** | Control de orígenes cruzados (CORS) | Presentación | `app.ts` | Middleware CORS |
-| **RNF-05** | Validación perimetral Zod | Presentación | `validateRequest.ts`, `perfume.schema.ts` | Rechazo automático HTTP 400 |
-| **RNF-06** | Manejo centralizado de errores | Presentación | `AppError.ts`, `errorHandler.ts` | Mapeo HTTP 400, 404, 409, 500 |
-| **RNF-07** | Hashing Bcrypt y tokens JWT | Infraestructura | `PasswordHasher.ts`, `JwtService.ts` | Factor >= 10, Tokens HMAC |
-| **RNF-08** | Compresión de tráfico (Gzip) | Presentación | `app.ts` | Middleware Compression |
 | **RNF-09** | Patrón Cache-Aside con TTL | Infraestructura | `RedisCacheService.ts` | Métodos `getOrSet`, `get`, `set` |
 | **RNF-10** | Logging estructurado Winston | Infraestructura | `logger.ts` | Formato ISO 8601 y JSON |
 | **RNF-11** | Full-Duplex WebSockets | Presentación | `WebSocketServer.ts` | Conexión `/ws` persistente |
