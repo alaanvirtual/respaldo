@@ -4,7 +4,7 @@
   "description": "Backend API para BL FRAGANCIAS - E-commerce e inventario de perfumería fina con Clean Architecture",
   "main": "dist/server.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "start": "node dist/server.js",
     "dev": "tsx watch src/server.ts",
     "lint": "eslint \"src/**/*.ts\"",
