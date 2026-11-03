@@ -1,0 +1,147 @@
+{
+  "info": {
+    "_postman_id": "b3e94a82-1234-4567-89ab-cdef01234567",
+    "name": "BL FRAGANCIAS API (Semana 09 - OpenAPI & HATEOAS)",
+    "description": "Colección oficial de pruebas de endpoints para BL FRAGANCIAS Backend. Incluye navegación HATEOAS, esquemas Zod y soporte BearerAuth.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.dummy",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/health",
+          "host": ["{{baseUrl}}"],
+          "path": ["health"]
+        },
+        "description": "Verifica la salud operacional del backend."
+      }
+    },
+    {
+      "name": "OpenAPI Specification (JSON)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/docs/swagger.json",
+          "host": ["{{baseUrl}}"],
+          "path": ["docs", "swagger.json"]
+        },
+        "description": "Obtiene la especificación técnica en formato OpenAPI 3.0.3."
+      }
+    },
+    {
+      "name": "Perfumes - Listar Catálogo con HATEOAS",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/perfumes?brand=Parfums%20de%20Marly&inStockOnly=true",
+          "host": ["{{baseUrl}}"],
+          "path": ["perfumes"],
+          "query": [
+            { "key": "brand", "value": "Parfums de Marly" },
+            { "key": "inStockOnly", "value": "true" }
+          ]
+        },
+        "description": "Retorna el catálogo con hipermedios _links para navegación HATEOAS."
+      }
+    },
+    {
+      "name": "Perfumes - Registrar Fragancia (Admin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Naxos\",\n  \"brand\": \"Xerjoff\",\n  \"concentration\": \"EDP\",\n  \"sizeMl\": 100,\n  \"price\": 5800.0,\n  \"stock\": 12\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/perfumes",
+          "host": ["{{baseUrl}}"],
+          "path": ["perfumes"]
+        }
+      }
+    },
+    {
+      "name": "Perfumes - Consultar Detalle por ID",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/perfumes/prf_test_swagger",
+          "host": ["{{baseUrl}}"],
+          "path": ["perfumes", "prf_test_swagger"]
+        }
+      }
+    },
+    {
+      "name": "Perfumes - Deducir Stock Transaccional",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"quantity\": 2\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/perfumes/prf_test_swagger/deduct-stock",
+          "host": ["{{baseUrl}}"],
+          "path": ["perfumes", "prf_test_swagger", "deduct-stock"]
+        }
+      }
+    },
+    {
+      "name": "Users - Listar Usuarios",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": ["{{baseUrl}}"],
+          "path": ["users"]
+        }
+      }
+    },
+    {
+      "name": "Users - Registrar Nuevo Usuario",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fullname\": \"Alan Abraham Peña Nava\",\n  \"username\": \"alanmasterpro\",\n  \"email\": \"alanmasterpro25@gmail.com\",\n  \"password\": \"PasswordSeguro2026!\",\n  \"role\": \"Admin\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/users",
+          "host": ["{{baseUrl}}"],
+          "path": ["users"]
+        }
+      }
+    }
+  ]
+}
