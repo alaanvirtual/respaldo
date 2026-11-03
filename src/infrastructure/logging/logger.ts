@@ -2,14 +2,21 @@ import winston from 'winston';
 
 const { combine, timestamp, printf, colorize, json, errors } = winston.format;
 
-const customFormat = printf(({ level, message, timestamp, stack, ...metadata }) => {
-  let msg = `[${timestamp}] [${level}]: ${message}`;
-  if (Object.keys(metadata).length > 0) {
-    msg += ` | Meta: ${JSON.stringify(metadata)}`;
+// Formato de consola para desarrollo: limpio, profesional y legible sin volcado de metadatos repetitivos
+const consoleFormat = printf(({ level, message, timestamp, stack, ...metadata }) => {
+  const extraMeta = { ...metadata };
+  delete extraMeta.service;
+
+  let msg = `[${timestamp}] [${level}] ${message}`;
+
+  if (Object.keys(extraMeta).length > 0) {
+    msg += ` ${JSON.stringify(extraMeta)}`;
   }
+
   if (stack) {
-    msg += `\nStack: ${stack}`;
+    msg += `\n${stack}`;
   }
+
   return msg;
 });
 
@@ -20,7 +27,7 @@ export const logger = winston.createLogger({
   format: combine(
     timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
     errors({ stack: true }),
-    isProduction ? json() : customFormat,
+    isProduction ? json() : consoleFormat,
   ),
   defaultMeta: { service: 'bl-fragancias-backend' },
   transports: [
@@ -30,7 +37,7 @@ export const logger = winston.createLogger({
         : combine(
             colorize({ all: true }),
             timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-            customFormat,
+            consoleFormat,
           ),
     }),
   ],

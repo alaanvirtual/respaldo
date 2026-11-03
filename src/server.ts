@@ -59,7 +59,7 @@ const initialUsers: User[] = [
     fullname: 'Alan Peña',
     username: 'alanmasterpro',
     email: 'alanmasterpro25@gmail.com',
-    passwordHash: '$2a$10$wE99qW4z6h3z87k2NqM9fe3y4z0kL5p91y8Q5k1z3k7m8n9p0q1r2', // bcrypt hash
+    passwordHash: '$2a$10$wE99qW4z6h3z87k2NqM9fe3y4z0kL5p91y8Q5k1z3k7m8n9p0q1r2',
     role: 'Admin',
   }),
   User.create({
@@ -88,23 +88,17 @@ wsServer.init(server);
 const PORT = parseInt(process.env.PORT || '3000', 10);
 
 server.listen(PORT, () => {
-  logger.info('====================================================');
-  logger.info('   BL FRAGANCIAS - SISTEMA DE PERFUMERÍA FINA       ');
-  logger.info('   Arquitectura Limpia (Clean Architecture) Backend  ');
-  logger.info('====================================================');
-  logger.info(`Servidor HTTP escuchando en http://localhost:${PORT}`);
-  logger.info(`Endpoint de Salud: http://localhost:${PORT}/api/health`);
-  logger.info(`Catalogo de Perfumes: http://localhost:${PORT}/api/perfumes`);
-  logger.info(`Gestion de Usuarios: http://localhost:${PORT}/api/users`);
-  logger.info(`WebSockets en tiempo real activo en ws://localhost:${PORT}/ws`);
-  logger.info(`Entorno: ${process.env.NODE_ENV || 'development'}`);
+  logger.info(`[Bootstrap] Servidor iniciado en modo ${process.env.NODE_ENV || 'development'}`);
+  logger.info(`[HTTP] Escuchando en http://localhost:${PORT}`);
+  logger.info(`[Docs] Swagger UI disponible en http://localhost:${PORT}/api/docs`);
+  logger.info(`[WebSocket] Canal de notificaciones activo en ws://localhost:${PORT}/ws`);
 });
 
 // 4. Manejo elegante de apagado (Graceful Shutdown)
 const handleShutdown = (signal: string) => {
-  logger.info(`Señal ${signal} recibida. Cerrando conexiones con gracia...`);
+  logger.info(`[Shutdown] Señal ${signal} recibida. Cerrando conexiones...`);
   server.close(() => {
-    logger.info('Servidor HTTP y WebSockets cerrados. Proceso finalizado.');
+    logger.info('[Shutdown] Servidor finalizado ordenadamente.');
     process.exit(0);
   });
 };

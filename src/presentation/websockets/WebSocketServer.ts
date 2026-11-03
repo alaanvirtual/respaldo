@@ -18,7 +18,9 @@ export class AppWebSocketServer {
     this.wss.on('connection', (ws: WebSocket, req) => {
       this.clients.add(ws);
       const clientIp = req.socket.remoteAddress;
-      logger.info(`[WebSocket] Cliente conectado desde ${clientIp}. Total clientes: ${this.clients.size}`);
+      logger.info(
+        `[WebSocket] Cliente conectado desde ${clientIp}. Total clientes: ${this.clients.size}`,
+      );
 
       // Enviar evento de bienvenida
       ws.send(
@@ -31,15 +33,15 @@ export class AppWebSocketServer {
 
       ws.on('close', () => {
         this.clients.delete(ws);
-        logger.info(`[WebSocket] Cliente desconectado. Total clientes activos: ${this.clients.size}`);
+        logger.info(
+          `[WebSocket] Cliente desconectado. Total clientes activos: ${this.clients.size}`,
+        );
       });
 
       ws.on('error', (error) => {
         logger.error(`[WebSocket Error] ${error.message}`);
       });
     });
-
-    logger.info('[WebSocket] Servidor de notificaciones en vivo inicializado en ruta /ws');
   }
 
   public broadcast<T>(type: string, payload: T): void {
@@ -61,7 +63,9 @@ export class AppWebSocketServer {
       }
     }
 
-    logger.debug(`[WebSocket Broadcast] Evento transmitido '${type}' a ${this.clients.size} clientes.`);
+    logger.debug(
+      `[WebSocket Broadcast] Evento transmitido '${type}' a ${this.clients.size} clientes.`,
+    );
   }
 
   public getConnectedClientsCount(): number {
