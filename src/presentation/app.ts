@@ -2,6 +2,8 @@ import express, { Application, Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import compression from 'compression';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerDocument } from './docs/swaggerDocument';
 import { errorHandler } from './middlewares/errorHandler';
 import { AppError } from './errors/AppError';
 import { createApiRouter } from './routes';
@@ -30,7 +32,12 @@ export function createApp(dependencies: AppDependencies): Application {
   const app: Application = express();
 
   // 1. Middlewares de Seguridad y Rendimiento
-  app.use(helmet());
+  // Se desactiva CSP para permitir la inyección de estilos y scripts de Swagger UI
+  app.use(
+    helmet({
+      contentSecurityPolicy: false,
+    }),
+  );
   app.use(cors({ origin: '*', methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'] }));
   app.use(compression());
   app.use(express.json({ limit: '1mb' }));
@@ -75,16 +82,26 @@ export function createApp(dependencies: AppDependencies): Application {
     deleteUserUseCase,
   );
 
-  // 4. Registro de Rutas Perimetrales
   const apiPrefix = process.env.API_PREFIX || '/api';
+
+  // 4. Documentación Interactiva Swagger / OpenAPI 3.0
+  app.get(`${apiPrefix}/docs/swagger.json`, (_req: Request, res: Response) => {
+    res.status(200).json(swaggerDocument);
+  });
+  app.get(`${apiPrefix}/docs.json`, (_req: Request, res: Response) => {
+    res.status(200).json(swaggerDocument);
+  });
+  app.use(`${apiPrefix}/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+  // 5. Registro de Rutas Perimetrales de la API
   app.use(apiPrefix, createApiRouter(perfumeController, userController));
 
-  // 5. Manejador de rutas no encontradas (404)
+  // 6. Manejador de rutas no encontradas (404)
   app.use((req: Request, _res: Response, next: NextFunction) => {
     next(AppError.notFound(`Ruta no encontrada: ${req.method} ${req.originalUrl}`));
   });
 
-  // 6. Manejador centralizado de errores
+  // 7. Manejador centralizado de errores
   app.use(errorHandler);
 
   return app;
