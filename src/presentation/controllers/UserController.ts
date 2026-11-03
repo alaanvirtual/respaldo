@@ -4,6 +4,7 @@ import { ListUsersUseCase } from '../../application/use-cases/ListUsersUseCase';
 import { GetUserByIdUseCase } from '../../application/use-cases/GetUserByIdUseCase';
 import { UpdateUserUseCase } from '../../application/use-cases/UpdateUserUseCase';
 import { DeleteUserUseCase } from '../../application/use-cases/DeleteUserUseCase';
+import { HateoasBuilder } from '../utils/hateoas';
 
 export class UserController {
   constructor(
@@ -21,6 +22,7 @@ export class UserController {
         status: 'success',
         message: 'Usuario registrado exitosamente',
         data: user,
+        _links: HateoasBuilder.forUser(user.id),
       });
     } catch (error) {
       next(error);
@@ -34,6 +36,7 @@ export class UserController {
         status: 'success',
         results: users.length,
         data: users,
+        _links: HateoasBuilder.forUserCollection(),
       });
     } catch (error) {
       next(error);
@@ -46,6 +49,7 @@ export class UserController {
       res.status(200).json({
         status: 'success',
         data: user,
+        _links: HateoasBuilder.forUser(user.id),
       });
     } catch (error) {
       next(error);
@@ -59,6 +63,7 @@ export class UserController {
         status: 'success',
         message: 'Usuario actualizado exitosamente',
         data: user,
+        _links: HateoasBuilder.forUser(user.id),
       });
     } catch (error) {
       next(error);
@@ -68,7 +73,11 @@ export class UserController {
   public delete = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       await this.deleteUserUseCase.execute(req.params.id!);
-      res.status(204).send();
+      res.status(200).json({
+        status: 'success',
+        message: 'Usuario eliminado exitosamente',
+        _links: HateoasBuilder.forUserCollection(),
+      });
     } catch (error) {
       next(error);
     }

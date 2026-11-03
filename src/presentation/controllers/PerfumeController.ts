@@ -5,6 +5,7 @@ import { ListPerfumesUseCase } from '../../application/use-cases/ListPerfumesUse
 import { DeductStockUseCase } from '../../application/use-cases/DeductStockUseCase';
 import { AppError } from '../errors/AppError';
 import { wsServer } from '../websockets/WebSocketServer';
+import { HateoasBuilder } from '../utils/hateoas';
 
 export class PerfumeController {
   constructor(
@@ -17,7 +18,7 @@ export class PerfumeController {
   public create = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const result = await this.createPerfumeUseCase.execute(req.body);
-      
+
       // Notificación reactiva vía WebSockets
       wsServer.broadcast('PERFUME_CREATED', {
         id: result.id,
@@ -29,6 +30,7 @@ export class PerfumeController {
       res.status(201).json({
         status: 'success',
         data: result,
+        _links: HateoasBuilder.forPerfume(result.id),
       });
     } catch (error) {
       next(error);
@@ -57,6 +59,7 @@ export class PerfumeController {
         status: 'success',
         results: results.length,
         data: results,
+        _links: HateoasBuilder.forPerfumeCollection(),
       });
     } catch (error) {
       next(error);
@@ -75,6 +78,7 @@ export class PerfumeController {
       res.status(200).json({
         status: 'success',
         data: result,
+        _links: HateoasBuilder.forPerfume(result.id),
       });
     } catch (error) {
       next(error);
@@ -99,6 +103,7 @@ export class PerfumeController {
         status: 'success',
         message: `Se dedujeron ${quantity} unidades correctamente.`,
         data: result,
+        _links: HateoasBuilder.forPerfume(result.id),
       });
     } catch (error) {
       next(error);
