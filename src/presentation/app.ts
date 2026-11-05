@@ -9,6 +9,7 @@ import { AppError } from './errors/AppError';
 import { createApiRouter } from './routes';
 import { PerfumeController } from './controllers/PerfumeController';
 import { UserController } from './controllers/UserController';
+import { AuthController } from './controllers/AuthController';
 import { CreatePerfumeUseCase } from '../application/use-cases/CreatePerfumeUseCase';
 import { GetPerfumeByIdUseCase } from '../application/use-cases/GetPerfumeByIdUseCase';
 import { ListPerfumesUseCase } from '../application/use-cases/ListPerfumesUseCase';
@@ -18,6 +19,7 @@ import { ListUsersUseCase } from '../application/use-cases/ListUsersUseCase';
 import { GetUserByIdUseCase } from '../application/use-cases/GetUserByIdUseCase';
 import { UpdateUserUseCase } from '../application/use-cases/UpdateUserUseCase';
 import { DeleteUserUseCase } from '../application/use-cases/DeleteUserUseCase';
+import { LoginUseCase } from '../application/use-cases/LoginUseCase';
 import { IPerfumeRepository } from '../domain/repositories/IPerfumeRepository';
 import { IUserRepository } from '../domain/repositories/IUserRepository';
 import { InMemoryUserRepository } from '../infrastructure/persistence/repositories/InMemoryUserRepository';
@@ -32,7 +34,6 @@ export function createApp(dependencies: AppDependencies): Application {
   const app: Application = express();
 
   // 1. Middlewares de Seguridad y Rendimiento
-  // Se desactiva CSP para permitir la inyección de estilos y scripts de Swagger UI
   app.use(
     helmet({
       contentSecurityPolicy: false,
@@ -73,6 +74,7 @@ export function createApp(dependencies: AppDependencies): Application {
   const getUserByIdUseCase = new GetUserByIdUseCase(userRepo);
   const updateUserUseCase = new UpdateUserUseCase(userRepo);
   const deleteUserUseCase = new DeleteUserUseCase(userRepo);
+  const loginUseCase = new LoginUseCase(userRepo);
 
   const userController = new UserController(
     createUserUseCase,
@@ -82,19 +84,26 @@ export function createApp(dependencies: AppDependencies): Application {
     deleteUserUseCase,
   );
 
-  const apiPrefix = process.env.API_PREFIX || '/api';
+  const authController = new AuthController(loginUseCase, createUserUseCase, getUserByIdUseCase);
 
-  // 4. Documentación Interactiva Swagger / OpenAPI 3.0
-  app.get(`${apiPrefix}/docs/swagger.json`, (_req: Request, res: Response) => {
-    res.status(200).json(swaggerDocument);
-  });
-  app.get(`${apiPrefix}/docs.json`, (_req: Request, res: Response) => {
-    res.status(200).json(swaggerDocument);
-  });
-  app.use(`${apiPrefix}/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+  // 4. Documentación Interactiva Swagger / OpenAPI 3.0 (en /api/docs y /api/v1/docs)
+  const serveSwagger = (prefix: string) => {
+    app.get(`${prefix}/docs/swagger.json`, (_req: Request, res: Response) => {
+      res.status(200).json(swaggerDocument);
+    });
+    app.get(`${prefix}/docs.json`, (_req: Request, res: Response) => {
+      res.status(200).json(swaggerDocument);
+    });
+    app.use(`${prefix}/docs`, swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+  };
 
-  // 5. Registro de Rutas Perimetrales de la API
-  app.use(apiPrefix, createApiRouter(perfumeController, userController));
+  serveSwagger('/api');
+  serveSwagger('/api/v1');
+
+  // 5. Registro de Rutas Perimetrales de la API (en /api/v1 y /api para compatibilidad total)
+  const apiRouter = createApiRouter(perfumeController, userController, authController);
+  app.use('/api/v1', apiRouter);
+  app.use('/api', apiRouter);
 
   // 6. Manejador de rutas no encontradas (404)
   app.use((req: Request, _res: Response, next: NextFunction) => {

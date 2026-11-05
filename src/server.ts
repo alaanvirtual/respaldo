@@ -11,8 +11,15 @@ import { InMemoryUserRepository } from './infrastructure/persistence/repositorie
 import { Perfume } from './domain/entities/Perfume';
 import { User } from './domain/entities/User';
 import { logger } from './infrastructure/logging/logger';
+import { DatabaseSingleton } from './infrastructure/persistence/DatabaseSingleton';
+import { RedisSingleton } from './infrastructure/cache/RedisSingleton';
 
-// 1. Catálogo inicial de Perfumería Fina para demostración inmediata
+// 1. Inicialización de Clientes Singleton (Capítulo 11 - Patrones Creacionales)
+const db = DatabaseSingleton.getInstance();
+const redis = RedisSingleton.getInstance();
+void db.connect();
+
+// 2. Catálogo inicial de Perfumería Fina para demostración inmediata
 const initialCatalog: Perfume[] = [
   Perfume.create({
     id: 'perf_bleu_chanel_01',
@@ -52,27 +59,38 @@ const initialCatalog: Perfume[] = [
   }),
 ];
 
-// Usuarios iniciales para demostración inmediata
+// Usuarios iniciales para demostración y verificación de RBAC estricto
+// Password para todos: 'Password123!' (hash bcrypt costo 10)
+const demoPasswordHash = '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'; // 'password'
+
 const initialUsers: User[] = [
   User.create({
     id: 'usr_admin_01',
-    fullname: 'Alan Peña',
-    username: 'alanmasterpro',
-    email: 'alanmasterpro25@gmail.com',
-    passwordHash: '$2a$10$wE99qW4z6h3z87k2NqM9fe3y4z0kL5p91y8Q5k1z3k7m8n9p0q1r2',
-    role: 'Admin',
+    fullname: 'Alan Peña (Administrador)',
+    username: 'admin_alan',
+    email: 'admin@blfragancias.com',
+    passwordHash: demoPasswordHash,
+    role: 'Administrador',
   }),
   User.create({
-    id: 'usr_customer_02',
+    id: 'usr_fraccionador_02',
+    fullname: 'Operador de Envíos y Taller',
+    username: 'fraccionador_01',
+    email: 'fraccionador@blfragancias.com',
+    passwordHash: demoPasswordHash,
+    role: 'Operador de Envíos / Fraccionador',
+  }),
+  User.create({
+    id: 'usr_cliente_03',
     fullname: 'Cliente Frecuente BL',
     username: 'cliente_vip',
     email: 'cliente@blfragancias.com',
-    passwordHash: '$2a$10$wE99qW4z6h3z87k2NqM9fe3y4z0kL5p91y8Q5k1z3k7m8n9p0q1r2',
-    role: 'Customer',
+    passwordHash: demoPasswordHash,
+    role: 'Cliente',
   }),
 ];
 
-// 2. Composición de Dependencias (Clean Architecture Composition Root)
+// 3. Composición de Dependencias (Clean Architecture Composition Root)
 const perfumeRepository = new InMemoryPerfumeRepository(initialCatalog);
 const userRepository = new InMemoryUserRepository(initialUsers);
 
@@ -81,29 +99,34 @@ const app = createApp({
   userRepository,
 });
 
-// 3. Servidor HTTP y WebSockets para Notificaciones en Vivo
+// 4. Servidor HTTP y WebSockets para Notificaciones en Vivo
 const server = http.createServer(app);
 wsServer.init(server);
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
 
-server.listen(PORT, () => {
-  logger.info(`[Bootstrap] Servidor iniciado en modo ${process.env.NODE_ENV || 'development'}`);
-  logger.info(`[HTTP] Escuchando en http://localhost:${PORT}`);
-  logger.info(`[Docs] Swagger UI disponible en http://localhost:${PORT}/api/docs`);
-  logger.info(`[WebSocket] Canal de notificaciones activo en ws://localhost:${PORT}/ws`);
-});
+if (process.env.NODE_ENV !== 'test') {
+  server.listen(PORT, () => {
+    logger.info(`[Bootstrap] Servidor iniciado en modo ${process.env.NODE_ENV || 'development'}`);
+    logger.info(`[HTTP] Escuchando en http://localhost:${PORT}`);
+    logger.info(`[API v1] Endpoints disponibles en http://localhost:${PORT}/api/v1`);
+    logger.info(`[Docs] Swagger UI disponible en http://localhost:${PORT}/api/docs`);
+    logger.info(`[WebSocket] Canal de notificaciones activo en ws://localhost:${PORT}/ws`);
+  });
+}
 
-// 4. Manejo elegante de apagado (Graceful Shutdown)
-const handleShutdown = (signal: string) => {
+// 5. Manejo elegante de apagado (Graceful Shutdown)
+const handleShutdown = async (signal: string) => {
   logger.info(`[Shutdown] Señal ${signal} recibida. Cerrando conexiones...`);
+  await db.disconnect();
+  await redis.disconnect();
   server.close(() => {
     logger.info('[Shutdown] Servidor finalizado ordenadamente.');
     process.exit(0);
   });
 };
 
-process.on('SIGTERM', () => handleShutdown('SIGTERM'));
-process.on('SIGINT', () => handleShutdown('SIGINT'));
+process.on('SIGTERM', () => void handleShutdown('SIGTERM'));
+process.on('SIGINT', () => void handleShutdown('SIGINT'));
 
 export { app, server };
