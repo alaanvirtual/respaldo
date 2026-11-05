@@ -1,42 +1,35 @@
-# docker-compose.yml - Entorno de persistencia y caché para BL FRAGANCIAS
-# Cumplimiento Hito e1.1 (Capítulo 10 - Docker Compose)
+version: '3.8'
 
 services:
   postgres:
     image: postgres:16-alpine
-    container_name: bl_postgres_16
-    restart: always
+    container_name: backend_postgres
+    restart: unless-stopped
     environment:
       POSTGRES_USER: ${DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
-      POSTGRES_DB: ${DB_NAME:-bl_fragancias_db}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgrespassword}
+      POSTGRES_DB: ${DB_NAME:-backend_db}
     ports:
       - "${DB_PORT:-5432}:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-bl_fragancias_db}"]
-      interval: 10s
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
       timeout: 5s
       retries: 5
 
   redis:
     image: redis:7-alpine
-    container_name: bl_redis_7
-    restart: always
-    command: redis-server --appendonly yes
+    container_name: backend_redis
+    restart: unless-stopped
     ports:
       - "${REDIS_PORT:-6379}:6379"
     volumes:
-      - redis_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - redisdata:/data
 
 volumes:
-  postgres_data:
+  pgdata:
     driver: local
-  redis_data:
+  redisdata:
     driver: local
