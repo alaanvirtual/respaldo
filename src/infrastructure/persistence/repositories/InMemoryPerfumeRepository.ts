@@ -1,4 +1,7 @@
-import { IPerfumeRepository, PerfumeFilterOptions } from '../../../domain/repositories/IPerfumeRepository';
+import {
+  IPerfumeRepository,
+  PerfumeFilterOptions,
+} from '../../../domain/repositories/IPerfumeRepository';
 import { Perfume } from '../../../domain/entities/Perfume';
 
 export class InMemoryPerfumeRepository implements IPerfumeRepository {

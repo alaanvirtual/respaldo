@@ -12,11 +12,7 @@ export function createPerfumeRouter(controller: PerfumeController): Router {
   const router = Router();
 
   // POST /api/perfumes - Crear nueva fragancia
-  router.post(
-    '/',
-    validateRequest({ body: createPerfumeSchema.shape.body }),
-    controller.create,
-  );
+  router.post('/', validateRequest({ body: createPerfumeSchema.shape.body }), controller.create);
 
   // GET /api/perfumes - Listar fragancias con filtros
   router.get(

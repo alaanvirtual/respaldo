@@ -127,7 +127,12 @@ export class Perfume {
     this._updatedAt = new Date();
   }
 
-  public updateDetails(name: string, brand: string, sizeMl: number, concentration: Concentration): void {
+  public updateDetails(
+    name: string,
+    brand: string,
+    sizeMl: number,
+    concentration: Concentration,
+  ): void {
     if (!name || name.trim().length === 0) {
       throw new InvalidPerfumeDataError('El nombre del perfume no puede estar vacío.');
     }

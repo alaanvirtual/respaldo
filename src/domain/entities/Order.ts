@@ -71,7 +71,9 @@ export class Order {
         throw new InvalidOrderOperationError('El perfumeId es obligatorio en cada ítem.');
       }
       if (!Number.isInteger(item.quantity) || item.quantity <= 0) {
-        throw new InvalidOrderOperationError('La cantidad de cada ítem debe ser un entero positivo.');
+        throw new InvalidOrderOperationError(
+          'La cantidad de cada ítem debe ser un entero positivo.',
+        );
       }
       if (typeof item.unitPrice !== 'number' || item.unitPrice <= 0) {
         throw new InvalidOrderOperationError('El precio unitario debe ser mayor a 0.');
@@ -85,7 +87,8 @@ export class Order {
     });
 
     const totalAmount = items.reduce((acc, curr) => acc + curr.subtotal, 0);
-    const id = props.id ?? 'ord_' + Math.random().toString(36).substring(2, 11) + Date.now().toString(36);
+    const id =
+      props.id ?? 'ord_' + Math.random().toString(36).substring(2, 11) + Date.now().toString(36);
 
     return new Order({
       id,

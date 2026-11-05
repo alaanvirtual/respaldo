@@ -5,16 +5,14 @@ import { DomainError } from '../../domain/errors/DomainError';
 import { InsufficientStockError } from '../../domain/errors/InsufficientStockError';
 import { logger } from '../../infrastructure/logging/logger';
 
-export function errorHandler(
-  err: Error,
-  req: Request,
-  res: Response,
-  _next: NextFunction,
-): void {
+export function errorHandler(err: Error, req: Request, res: Response, _next: NextFunction): void {
   // 1. Errores operacionales controlados (AppError)
   if (err instanceof AppError) {
     if (!err.isOperational) {
-      logger.error(`[AppError No Operacional] ${err.message}`, { stack: err.stack, details: err.details });
+      logger.error(`[AppError No Operacional] ${err.message}`, {
+        stack: err.stack,
+        details: err.details,
+      });
     }
 
     res.status(err.statusCode).json({

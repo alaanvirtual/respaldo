@@ -1,4 +1,7 @@
-import { IPerfumeRepository, PerfumeFilterOptions } from '../../domain/repositories/IPerfumeRepository';
+import {
+  IPerfumeRepository,
+  PerfumeFilterOptions,
+} from '../../domain/repositories/IPerfumeRepository';
 import { mapPerfumeToResponseDTO, PerfumeResponseDTO } from '../dtos/PerfumeResponseDTO';
 
 export class ListPerfumesUseCase {
