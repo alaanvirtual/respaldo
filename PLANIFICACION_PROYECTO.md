@@ -20,14 +20,14 @@ Cada estudiante debe integrar en su proyecto los conceptos y componentes de inge
 
 | Semana | Entregable | Fecha Límite Reglamentaria | Tag Obligatorio | Hito Técnico a Implementar (RF y RNF Asociados) | Capítulos de Referencia |
 | :---: | :---: | :--- | :---: | :--- | :--- |
-| Semana 1 | e1.1 | **Jueves**<br>Jueves 12 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.1.0-e1.1` | **Arquitectura limpia en TypeScript, entorno Docker, patrones creacionales y autenticación con JWT**<br>• *RF:* RF01 a RF5 (Autenticación, registro, perfil de usuarios, control de credenciales y roles de acceso RBAC)<br>• *RNF:* RNF01 (Seguridad JWT y Hashing de Contraseñas), RNF05 (Mantenibilidad y Clean Architecture) | Cap. 3, 4, 5, 10, 11, 13 |
-| Semana 1 | e1.2 | **Domingo**<br>Domingo 15 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.1.0-e1.2` | **Modelado de entidades de negocio, catálogos base, índices en base de datos y cadena de middlewares**<br>• *RF:* RF6 a RF6 (Modelado relacional de entidades principales, catálogos base, integridad referencial y validación de esquemas)<br>• *RNF:* RNF03 (Integridad Referencial en Base de Datos), RNF08 (Validación Estricta de Entradas con DTOs) | Cap. 6, 12, 14 |
-| Semana 2 | e2.1 | **Jueves**<br>Jueves 19 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.2.0-e2.1` | **Búsqueda avanzada, paginación de resultados, optimización de consultas y caché con Redis**<br>• *RF:* RF7 a RF9 (Búsqueda avanzada multicriterio, paginación estructurada, filtros dinámicos y caché LRU en memoria)<br>• *RNF:* RNF02 (Rendimiento de Consulta < 200ms con Índices B-Tree y Redis) | Cap. 6, 7, 14 |
-| Semana 2 | e2.2 | **Domingo**<br>Domingo 22 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.2.0-e2.2` | **Transacciones atómicas ACID, control de concurrencia y suite de pruebas automatizadas**<br>• *RF:* RF10 a RF12 (Operación transaccional crítica del dominio, cálculo atómico, aislamiento de bloqueos y prevención de sobreventa)<br>• *RNF:* RNF03 (Atomicidad y Consistencia ACID con Rollback Automático), RNF04 (Disponibilidad Continua) | Cap. 6, 9, 15 |
-| Semana 3 | e3.1 | **Jueves**<br>Jueves 26 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.3.0-e3.1` | **Máquina de estados de negocio, procesamiento asíncrono con colas y sistema de notificaciones**<br>• *RF:* RF13 a RF15 (Máquina de estados finitos del flujo de trabajo, transiciones reglamentadas y colas de notificaciones asíncronas)<br>• *RNF:* RNF06 (Escalabilidad Horizontal con Procesamiento en Colas BullMQ) | Cap. 8, 12, 16 |
-| Semana 3 | e3.2 | **Domingo**<br>Domingo 29 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.3.0-e3.2` | **Flujo de eventos, registro de auditoría inmutable y proyección analítica CQRS**<br>• *RF:* RF16 a RF17 (Flujo de eventos de dominio, bitácora de auditoría histórica inmutable y proyección de consultas segregadas)<br>• *RNF:* RNF09 (Trazabilidad y Registro Inmutable de Operaciones Críticas) | Cap. 16, 17 |
-| Semana 4 | e4.1 | **Jueves**<br>Jueves 3 de diciembre de 2026, 23:59 hrs MX (UTC-6) | `v0.4.0-e4.1` | **Módulo de reportes analíticos, optimización del ciclo de eventos y subprocesos Worker Threads**<br>• *RF:* RF18 a RF21 (Módulo de reportes analíticos, agregaciones estadísticas complejas y descarga intensiva de cómputo)<br>• *RNF:* RNF02 (No Bloqueo del Ciclo de Eventos mediante Subprocesos Worker Threads) | Cap. 18 |
-| Semana 4 | e4.2 | **Domingo**<br>Domingo 6 de diciembre de 2026, 23:59 hrs MX (UTC-6) | `v1.0.0-final` | **Versión final de producción 1.0.0, documentación OpenAPI/Swagger y suite completa de pruebas**<br>• *RF:* RF01 a RF21 (100% de Requerimientos Funcionales) (Cobertura integral de todas las operaciones del sistema, suite completa de pruebas de humo y documentación)<br>• *RNF:* RNF01 a RNF16 (100% de Requerimientos No Funcionales: Seguridad, Rendimiento, Docker y Respaldos) | Cap. 9, 10, 13 |
+| Semana 1 | e1.1 | **Jueves**<br>Jueves 05 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.1.0-e1.1` | **Arquitectura limpia en TypeScript, entorno Docker, patrones creacionales y autenticación con JWT**<br>• *RF:* RF01 a RF5 (Autenticación, registro, perfil de usuarios, control de credenciales y roles de acceso RBAC)<br>• *RNF:* RNF01 (Seguridad JWT y Hashing de Contraseñas), RNF05 (Mantenibilidad y Clean Architecture) | Cap. 3, 4, 5, 10, 11, 13 |
+| Semana 1 | e1.2 | **Domingo**<br>Domingo 08 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.1.0-e1.2` | **Modelado de entidades de negocio, catálogos base, índices en base de datos y cadena de middlewares**<br>• *RF:* RF6 a RF6 (Modelado relacional de entidades principales, catálogos base, integridad referencial y validación de esquemas)<br>• *RNF:* RNF03 (Integridad Referencial en Base de Datos), RNF08 (Validación Estricta de Entradas con DTOs) | Cap. 6, 12, 14 |
+| Semana 2 | e2.1 | **Jueves**<br>Jueves 12 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.2.0-e2.1` | **Búsqueda avanzada, paginación de resultados, optimización de consultas y caché con Redis**<br>• *RF:* RF7 a RF9 (Búsqueda avanzada multicriterio, paginación estructurada, filtros dinámicos y caché LRU en memoria)<br>• *RNF:* RNF02 (Rendimiento de Consulta < 200ms con Índices B-Tree y Redis) | Cap. 6, 7, 14 |
+| Semana 2 | e2.2 | **Domingo**<br>Domingo 15 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.2.0-e2.2` | **Transacciones atómicas ACID, control de concurrencia y suite de pruebas automatizadas**<br>• *RF:* RF10 a RF12 (Operación transaccional crítica del dominio, cálculo atómico, aislamiento de bloqueos y prevención de sobreventa)<br>• *RNF:* RNF03 (Atomicidad y Consistencia ACID con Rollback Automático), RNF04 (Disponibilidad Continua) | Cap. 6, 9, 15 |
+| Semana 3 | e3.1 | **Jueves**<br>Jueves 19 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.3.0-e3.1` | **Máquina de estados de negocio, procesamiento asíncrono con colas y sistema de notificaciones**<br>• *RF:* RF13 a RF15 (Máquina de estados finitos del flujo de trabajo, transiciones reglamentadas y colas de notificaciones asíncronas)<br>• *RNF:* RNF06 (Escalabilidad Horizontal con Procesamiento en Colas BullMQ) | Cap. 8, 12, 16 |
+| Semana 3 | e3.2 | **Domingo**<br>Domingo 22 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.3.0-e3.2` | **Flujo de eventos, registro de auditoría inmutable y proyección analítica CQRS**<br>• *RF:* RF16 a RF17 (Flujo de eventos de dominio, bitácora de auditoría histórica inmutable y proyección de consultas segregadas)<br>• *RNF:* RNF09 (Trazabilidad y Registro Inmutable de Operaciones Críticas) | Cap. 16, 17 |
+| Semana 4 | e4.1 | **Jueves**<br>Jueves 26 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v0.4.0-e4.1` | **Módulo de reportes analíticos, optimización del ciclo de eventos y subprocesos Worker Threads**<br>• *RF:* RF18 a RF21 (Módulo de reportes analíticos, agregaciones estadísticas complejas y descarga intensiva de cómputo)<br>• *RNF:* RNF02 (No Bloqueo del Ciclo de Eventos mediante Subprocesos Worker Threads) | Cap. 18 |
+| Semana 4 | e4.2 | **Domingo**<br>Domingo 29 de noviembre de 2026, 23:59 hrs MX (UTC-6) | `v1.0.0-final` | **Versión final de producción 1.0.0, documentación OpenAPI/Swagger y suite completa de pruebas**<br>• *RF:* RF01 a RF21 (100% de Requerimientos Funcionales) (Cobertura integral de todas las operaciones del sistema, suite completa de pruebas de humo y documentación)<br>• *RNF:* RNF01 a RNF16 (100% de Requerimientos No Funcionales: Seguridad, Rendimiento, Docker y Respaldos) | Cap. 9, 10, 13 |
 
 ---
 
@@ -38,7 +38,7 @@ Los siguientes componentes técnicos deben estar integrados de forma funcional e
 ### Semana 1: Cimientos de Arquitectura, Persistencia y Seguridad
 
 #### Entregable 1.1 (`v0.1.0-e1.1`): Arquitectura Limpia, Docker y Autenticación JWT
-* **Fecha Límite:** Jueves 12 de noviembre de 2026, 23:59 hrs MX (UTC-6).
+* **Fecha Límite:** Jueves 05 de noviembre de 2026, 23:59 hrs MX (UTC-6).
 * **Capítulos de Referencia:** Cap. 3 (Express.js), Cap. 4 (Planeación de la Aplicación), Cap. 5 (Módulo de Usuarios y JWT), Cap. 10 (Docker Compose), Cap. 11 (Patrones Creacionales: Singleton), Cap. 13 (Principios SOLID y Arquitectura Limpia).
 * **Requerimientos Cubiertos:**
   - **Requerimientos Funcionales:** `RF01 a RF5` (Autenticación, registro, perfil de usuarios, control de credenciales y roles de acceso RBAC).
@@ -53,7 +53,7 @@ Los siguientes componentes técnicos deben estar integrados de forma funcional e
     - **Cliente**
 
 #### Entregable 1.2 (`v0.1.0-e1.2`): Entidades de Negocio, Catálogos e Índices B-Tree
-* **Fecha Límite:** Domingo 15 de noviembre de 2026, 23:59 hrs MX (UTC-6).
+* **Fecha Límite:** Domingo 08 de noviembre de 2026, 23:59 hrs MX (UTC-6).
 * **Capítulos de Referencia:** Cap. 6 (Módulos de Entidades y Relaciones), Cap. 12 (Cadena de Middlewares), Cap. 14 (Motores de Almacenamiento e Índices B-Tree).
 * **Requerimientos Cubiertos:**
   - **Requerimientos Funcionales:** `RF6 a RF6` (Modelado relacional de entidades principales, catálogos base, integridad referencial y validación de esquemas).
@@ -77,7 +77,7 @@ Los siguientes componentes técnicos deben estar integrados de forma funcional e
 ### Semana 2: Optimización de Consultas, Transacciones y Pruebas
 
 #### Entregable 2.1 (`v0.2.0-e2.1`): Búsqueda Avanzada, Paginación y Caché con Redis
-* **Fecha Límite:** Jueves 19 de noviembre de 2026, 23:59 hrs MX (UTC-6).
+* **Fecha Límite:** Jueves 12 de noviembre de 2026, 23:59 hrs MX (UTC-6).
 * **Capítulos de Referencia:** Cap. 6 (Consultas Avanzadas), Cap. 7 (Almacenamiento en Caché de APIs con Redis), Cap. 14 (Optimización de Consultas y EXPLAIN ANALYZE).
 * **Requerimientos Cubiertos:**
   - **Requerimientos Funcionales:** `RF7 a RF9` (Búsqueda avanzada multicriterio, paginación estructurada, filtros dinámicos y caché LRU en memoria).
@@ -89,7 +89,7 @@ Los siguientes componentes técnicos deben estar integrados de forma funcional e
   - **Capa de almacenamiento en caché con Redis:** Almacenamiento en memoria RAM para catálogos y consultas de lectura intensiva, con tiempo de expiración (`TTL`) e invalidación automática ante eventos de creación, actualización o eliminación.
 
 #### Entregable 2.2 (`v0.2.0-e2.2`): Transacciones Atómicas ACID y Pruebas Automatizadas
-* **Fecha Límite:** Domingo 22 de noviembre de 2026, 23:59 hrs MX (UTC-6).
+* **Fecha Límite:** Domingo 15 de noviembre de 2026, 23:59 hrs MX (UTC-6).
 * **Capítulos de Referencia:** Cap. 6 (Transacciones ACID), Cap. 9 (Pruebas Automatizadas de APIs), Cap. 15 (Transacciones Avanzadas, Niveles de Aislamiento y Concurrencia).
 * **Requerimientos Cubiertos:**
   - **Requerimientos Funcionales:** `RF10 a RF12` (Operación transaccional crítica del dominio, cálculo atómico, aislamiento de bloqueos y prevención de sobreventa).
@@ -106,7 +106,7 @@ Los siguientes componentes técnicos deben estar integrados de forma funcional e
 ### Semana 3: Eventos de Negocio, Mensajería y Auditoría Inmutable
 
 #### Entregable 3.1 (`v0.3.0-e3.1`): Máquina de Estados y Procesamiento Asíncrono con Colas
-* **Fecha Límite:** Jueves 26 de noviembre de 2026, 23:59 hrs MX (UTC-6).
+* **Fecha Límite:** Jueves 19 de noviembre de 2026, 23:59 hrs MX (UTC-6).
 * **Capítulos de Referencia:** Cap. 8 (Módulo de Notificaciones y BullMQ), Cap. 12 (Máquinas de Estados y Patrón Observer), Cap. 16 (Patrones de Mensajería Asíncrona).
 * **Requerimientos Cubiertos:**
   - **Requerimientos Funcionales:** `RF13 a RF15` (Máquina de estados finitos del flujo de trabajo, transiciones reglamentadas y colas de notificaciones asíncronas).
@@ -123,7 +123,7 @@ Los siguientes componentes técnicos deben estar integrados de forma funcional e
   - **Políticas de resiliencia:** Confirmaciones manuales (`ack` / `nack`), reintentos exponenciales y manejo de colas de mensajes fallidos (`dead letter queue`).
 
 #### Entregable 3.2 (`v0.3.0-e3.2`): Flujo de Eventos, Registro de Auditoría y CQRS
-* **Fecha Límite:** Domingo 29 de noviembre de 2026, 23:59 hrs MX (UTC-6).
+* **Fecha Límite:** Domingo 22 de noviembre de 2026, 23:59 hrs MX (UTC-6).
 * **Capítulos de Referencia:** Cap. 16 (Arquitecturas Desacopladas por Eventos), Cap. 17 (Procesamiento de Flujos de Eventos y Captura de Cambios CDC).
 * **Requerimientos Cubiertos:**
   - **Requerimientos Funcionales:** `RF16 a RF17` (Flujo de eventos de dominio, bitácora de auditoría histórica inmutable y proyección de consultas segregadas).
@@ -137,7 +137,7 @@ Los siguientes componentes técnicos deben estar integrados de forma funcional e
 ### Semana 4: Módulo de Reportes, Cómputo Paralelo y Versión Final 1.0.0
 
 #### Entregable 4.1 (`v0.4.0-e4.1`): Módulo de Reportes Analíticos y Worker Threads
-* **Fecha Límite:** Jueves 3 de diciembre de 2026, 23:59 hrs MX (UTC-6).
+* **Fecha Límite:** Jueves 26 de noviembre de 2026, 23:59 hrs MX (UTC-6).
 * **Capítulos de Referencia:** Cap. 18 (Optimización del Ciclo de Eventos, Worker Threads y Procesos Hijo).
 * **Requerimientos Cubiertos:**
   - **Requerimientos Funcionales:** `RF18 a RF21` (Módulo de reportes analíticos, agregaciones estadísticas complejas y descarga intensiva de cómputo).
@@ -149,7 +149,7 @@ Los siguientes componentes técnicos deben estar integrados de forma funcional e
   - **Endpoints de reportes:** Rutas dedicadas protegidas para la consulta y exportación de reportes ejecutivos.
 
 #### Entregable 4.2 (`v1.0.0-final`): Versión 1.0.0, OpenAPI/Swagger y Entrega Final
-* **Fecha Límite:** Domingo 6 de diciembre de 2026, 23:59 hrs MX (UTC-6).
+* **Fecha Límite:** Domingo 29 de noviembre de 2026, 23:59 hrs MX (UTC-6).
 * **Capítulos de Referencia:** Cap. 9 (Cobertura Total de Pruebas), Cap. 10 (Despliegue en Producción), Cap. 13 (Verificación de Clean Architecture).
 * **Requerimientos Cubiertos:**
   - **Requerimientos Funcionales:** `RF01 a RF21 (100% de Requerimientos Funcionales)`.
@@ -197,10 +197,10 @@ Esta matriz certifica que la totalidad de los requerimientos funcionales y no fu
 
 ### 5.1 Calendario Oficial de Fechas Límite (Jueves y Domingos)
 Las entregas se cierran indefectiblemente los días **Jueves** (Entregable .1) y **Domingos** (Entregable .2) a las **23:59:59 hrs (Hora Central de México / UTC-6)**:
-- **Semana 1:** Jueves 12 de noviembre de 2026 (`e1.1`) y Domingo 15 de noviembre de 2026 (`e1.2`).
-- **Semana 2:** Jueves 19 de noviembre de 2026 (`e2.1`) y Domingo 22 de noviembre de 2026 (`e2.2`).
-- **Semana 3:** Jueves 26 de noviembre de 2026 (`e3.1`) y Domingo 29 de noviembre de 2026 (`e3.2`).
-- **Semana 4:** Jueves 3 de diciembre de 2026 (`e4.1`) y Domingo 6 de diciembre de 2026 (`e4.2`).
+- **Semana 1:** Jueves 05 de noviembre de 2026 (`v0.1.0-e1.1`) y Domingo 08 de noviembre de 2026 (`v0.1.0-e1.2`).
+- **Semana 2:** Jueves 12 de noviembre de 2026 (`v0.2.0-e2.1`) y Domingo 15 de noviembre de 2026 (`v0.2.0-e2.2`).
+- **Semana 3:** Jueves 19 de noviembre de 2026 (`v0.3.0-e3.1`) y Domingo 22 de noviembre de 2026 (`v0.3.0-e3.2`).
+- **Semana 4:** Jueves 26 de noviembre de 2026 (`v0.4.0-e4.1`) y Domingo 29 de noviembre de 2026 (`v1.0.0-final`).
 
 ### 5.2 Ponderación de Evaluación Automatizada
 
