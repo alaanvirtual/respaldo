@@ -1,6 +1,15 @@
 import { DomainError } from '../errors/DomainError';
 
-export type UserRole = 'Admin' | 'Customer';
+export type UserRole =
+  'Administrador' | 'Operador de Envíos / Fraccionador' | 'Cliente' | 'Admin' | 'Customer';
+
+export const VALID_USER_ROLES: UserRole[] = [
+  'Administrador',
+  'Operador de Envíos / Fraccionador',
+  'Cliente',
+  'Admin',
+  'Customer',
+];
 
 export class InvalidUserDataError extends DomainError {
   constructor(message: string) {
@@ -47,7 +56,8 @@ export class User {
   }
 
   public static create(props: CreateUserProps): User {
-    const id = props.id ?? 'usr_' + Math.random().toString(36).substring(2, 11) + Date.now().toString(36);
+    const id =
+      props.id ?? 'usr_' + Math.random().toString(36).substring(2, 11) + Date.now().toString(36);
     return new User({
       ...props,
       id,
@@ -77,15 +87,17 @@ export class User {
     if (!props.passwordHash || props.passwordHash.length === 0) {
       throw new InvalidUserDataError('El hash de contraseña es obligatorio.');
     }
-    if (props.role !== 'Admin' && props.role !== 'Customer') {
-      throw new InvalidUserDataError(`Rol inválido '${props.role}'. Debe ser 'Admin' o 'Customer'.`);
+    if (!VALID_USER_ROLES.includes(props.role)) {
+      throw new InvalidUserDataError(
+        `Rol inválido '${props.role}'. Debe ser uno de: ${VALID_USER_ROLES.join(', ')}.`,
+      );
     }
   }
 
   // --- Métodos de negocio ---
 
   public changeRole(newRole: UserRole): void {
-    if (newRole !== 'Admin' && newRole !== 'Customer') {
+    if (!VALID_USER_ROLES.includes(newRole)) {
       throw new InvalidUserDataError(`Rol no soportado: ${newRole}`);
     }
     this._role = newRole;

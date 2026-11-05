@@ -31,7 +31,7 @@ export class CreateUserUseCase {
       username: dto.username,
       email: dto.email,
       passwordHash,
-      role: dto.role ?? 'Customer',
+      role: dto.role ?? 'Cliente',
     });
 
     await this.userRepository.save(user);

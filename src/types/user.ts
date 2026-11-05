@@ -1,4 +1,6 @@
-export type UserRole = 'Admin' | 'Customer';
+export type UserRole =
+  'Administrador' | 'Operador de Envíos / Fraccionador' | 'Cliente' | 'Admin' | 'Customer';
+
 export interface IUser {
   id: string;
   fullname: string;
